@@ -6,7 +6,7 @@
   <link href="https://lewiserii.github.io/atom.xml" rel="self"/>
   
   <link href="https://lewiserii.github.io/"/>
-  <updated>2021-06-16T01:29:44.978Z</updated>
+  <updated>2021-06-16T01:31:15.257Z</updated>
   <id>https://lewiserii.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://lewiserii.github.io/2021/06/16/CTFshow-%E7%BE%A4%E5%8F%8B%E6%8C%91%E6%88%98/"/>
     <id>https://lewiserii.github.io/2021/06/16/CTFshow-%E7%BE%A4%E5%8F%8B%E6%8C%91%E6%88%98/</id>
     <published>2021-06-16T04:00:00.000Z</published>
-    <updated>2021-06-16T01:29:44.978Z</updated>
+    <updated>2021-06-16T01:31:15.257Z</updated>
     
     <content type="html"><![CDATA[<h1 id="CTFshow福利抽奖"><a href="#CTFshow福利抽奖" class="headerlink" title="CTFshow福利抽奖"></a>CTFshow福利抽奖</h1><p>好家伙，打开容器就是flag，但是群主把提交的框隐藏了<br><img src="https://www.hualigs.cn/image/60c9468378bef.jpg"></p><p>观察URL中的数字，发现这一题的value是1089<br><img src="https://www.hualigs.cn/image/60c946f21845e.jpg"></p><p>打开其他任意一题，修改challenge-id的value值，提交成功<br><img src="https://www.hualigs.cn/image/60c94fbb865f5.jpg"></p><h1 id="富婆我来了"><a href="#富婆我来了" class="headerlink" title="富婆我来了"></a>富婆我来了</h1><p>根据提示，在群文件下载文件<br><img src="https://www.hualigs.cn/image/60c94fc38bce6.jpg"></p><p>将附件内容与群文件内容一一对应，找到中文即可</p><blockquote><p>214,1—&gt;我<br>221,7—&gt;也<br>233,35—&gt;想<br>15,45—&gt;找<br>65,67—&gt;三<br>57,37—&gt;十<br>115,27—&gt;六<br>229,8—&gt;迪<br>232,27—&gt;的<br>101,48—&gt;富<br>124,94—&gt;婆</p></blockquote><h1 id="病毒我来了"><a href="#病毒我来了" class="headerlink" title="病毒我来了"></a>病毒我来了</h1><p>解压后直接用010或者strings可以看到flag就在最后，不过是16进制的，转成字符串即可</p><h1 id="FW我来了"><a href="#FW我来了" class="headerlink" title="FW我来了"></a>FW我来了</h1><p>notepad++或其他编辑器打开</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[&#123;000214A0-0000-0000-C000-000000000046&#125;]</span><br><span class="line">Prop3=19,2</span><br><span class="line">[InternetShortcut]</span><br><span class="line">Modified=63746673686f777b666c61675f69735f6c6f76657d</span><br><span class="line">IconFile=C:\WINDOWS\system32\SHELL32.dll</span><br><span class="line">IconIndex=10</span><br><span class="line">IDList=</span><br><span class="line">URL=https://ctf.show/</span><br></pre></td></tr></table></figure><p>将modified的值转字符串即可</p>]]></content>
     
@@ -33,10 +33,10 @@
     
     
     
-    <category term="wp" scheme="https://lewiserii.github.io/categories/wp/"/>
+    <category term="WP" scheme="https://lewiserii.github.io/categories/WP/"/>
     
     
-    <category term="wp,ctfshow" scheme="https://lewiserii.github.io/tags/wp-ctfshow/"/>
+    <category term="WP,ctfshow" scheme="https://lewiserii.github.io/tags/WP-ctfshow/"/>
     
   </entry>
   
