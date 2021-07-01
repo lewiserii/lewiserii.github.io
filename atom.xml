@@ -6,7 +6,7 @@
   <link href="https://lewiserii.github.io/atom.xml" rel="self"/>
   
   <link href="https://lewiserii.github.io/"/>
-  <updated>2021-06-21T05:22:50.981Z</updated>
+  <updated>2021-07-01T11:22:54.019Z</updated>
   <id>https://lewiserii.github.io/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>文件上传总结</title>
+    <link href="https://lewiserii.github.io/2021/07/01/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%80%BB%E7%BB%93/"/>
+    <id>https://lewiserii.github.io/2021/07/01/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%80%BB%E7%BB%93/</id>
+    <published>2021-07-01T06:00:00.000Z</published>
+    <updated>2021-07-01T11:22:54.019Z</updated>
+    
+    <content type="html"><![CDATA[<!-- toc --><ul><li><a href="#%E5%89%8D%E8%A8%80">前言</a></li><li><a href="#javascript%E7%BB%95%E8%BF%87">JavaScript绕过</a></li><li><a href="#mime%E7%BB%95%E8%BF%87">MIME绕过</a></li><li><a href="#%E6%96%87%E4%BB%B6%E5%A4%B4%E7%BB%95%E8%BF%87">文件头绕过</a></li><li><a href="#%E6%9C%89%E7%BC%BA%E9%99%B7%E7%9A%84%E4%BB%A3%E7%A0%81-1">有缺陷的代码–1</a></li><li><a href="#%E6%9C%89%E7%BC%BA%E9%99%B7%E7%9A%84%E4%BB%A3%E7%A0%81-2">有缺陷的代码–2</a></li><li><a href="#%E9%BB%91%E5%90%8D%E5%8D%95%E7%BC%BA%E9%99%B7">黑名单缺陷</a></li><li><a href="#%E8%A7%A3%E6%9E%90%E4%B8%8A%E4%BC%A0">解析上传</a></li><li><a href="#00%E6%88%AA%E6%96%AD-1">00截断–1</a></li><li><a href="#00%E6%88%AA%E6%96%AD-2">00截断–2</a></li><li><a href="#%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89">条件竞争</a></li></ul><!-- tocstop --><h1><span id="前言">前言</span></h1><p>之前写过一篇文件上传的总结，但是写的有点混乱，不知所云<br>这几天发现了国光师傅的<a href="https://hub.docker.com/r/sqlsec/ggctf-upload">文件上传靶场项目</a>，正好重新总结一下</p><p>靶场部署就不多说了</p><h1><span id="javascript绕过">JavaScript绕过</span></h1><p>从最简单的js开始<br>首先我们要判断是否为js前端验证<br>F12查看代码，已经很明显了<br><img src="https://raw.githubusercontent.com/lewiserii/images/master/img/wj1.jpg"></p><p>js绕过的方法较多，常见的有抓包改后缀，禁用js或是直接修改代码<br>我比较喜欢用chrome的禁用js<br>访问chrome://settings/content/javascript?search=java<br>添加禁用即可<br><img src="https://raw.githubusercontent.com/lewiserii/images/master/img/wj2.jpg"></p><h1><span id="mime绕过">MIME绕过</span></h1><p>MIME验证是对数据包的Content-Type类型进行验证<br>我们只需要修改Content-Type类型即可绕过<br><img src="https://raw.githubusercontent.com/lewiserii/images/master/img/wj3.jpg"><br>常见的类型</p><blockquote><p>text/plain（纯文本）<br>text/html（HTML文档）<br>text/javascript（js代码）<br>application/xhtml+xml（XHTML文档）<br>image/gif（GIF图像）<br>image/jpeg（JPEG图像）<br>image/png（PNG图像）<br>video/mpeg（MPEG动画）<br>application/octet-stream（二进制数据）<br>application/pdf（PDF文档）<br>application/(编程语言) 该种语言的代码<br>application/msword（Microsoft Word文件）<br>message/rfc822（RFC 822形式）<br>multipart/alternative（HTML邮件的HTML形式和纯文本形式，相同内容使用不同形式表示）<br>application/x-www-form-urlencoded（ POST方法提交的表单）<br>multipart/form-data（POST提交时伴随文件上传的表单）</p></blockquote><h1><span id="文件头绕过">文件头绕过</span></h1><p>顾名思义，就是对文件头的验证<br>用010 Editor等十六进制编辑器查看并修改<br><img src="https://raw.githubusercontent.com/lewiserii/images/master/img/wj4.jpg"><br>当然，一个标准的图片马是没有这个问题的<br>常见的文件头</p><blockquote><p>PNG 的文件头为<br>十六进制的 89 50 4E 47 0D 0A 1A 0A</p></blockquote><blockquote><p>GIF(相当于文本的GIF89a)：<br>47 49 46 38 39 61</p></blockquote><blockquote><p>JPG 的文件头为<br>FF D8 FF E0 00 10 4A 46 49 46</p></blockquote><blockquote><p>ZIP 的文件头为<br>50 4B 03 04</p></blockquote><blockquote><p>RAR 的文件头为<br>52 61 72 21</p></blockquote><h1><span id="有缺陷的代码1">有缺陷的代码–1</span></h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$blacklist = array(&quot;php&quot;,&quot;php5&quot;,&quot;php4&quot;,&quot;php3&quot;,&quot;phtml&quot;,&quot;pht&quot;,&quot;htaccess&quot;);</span><br><span class="line">$name = str_ireplace($blacklist,&quot;&quot;,$name);</span><br><span class="line">if (move_uploaded_file($_FILES[&#x27;file&#x27;][&#x27;tmp_name&#x27;],UPLOAD_PATH.$name))</span><br></pre></td></tr></table></figure><p>黑名单关键词替换为空的操作是一种不安全的写法<br>可以使用双写来绕过<br>如<br>test.phphpp</p><h1><span id="有缺陷的代码2">有缺陷的代码–2</span></h1><p>还是上一题的代码<br>但是在windows环境下不区分大小写，所以就可以让 .PHp 当做 .php 来解析了，但是 Linux 下这种大小写如果的话完全没作用</p><h1><span id="黑名单缺陷">黑名单缺陷</span></h1><p>白名单是设置能通过的用户，白名单以外的用户都不能通过。<br>黑名单是设置不能通过的用户，黑名单以外的用户都能通过。<br>所以一般情况下白名单比黑名单限制的用户要更多一些<br>这里利用的是php的多后缀<br>默认情况下 Apache 把 phtml、pht、php、php3、php4、php5 解析为 PHP</p><h1><span id="解析上传">解析上传</span></h1><p>上传一个.htaccess文件，文件内容如下<br><img src="https://raw.githubusercontent.com/lewiserii/images/master/img/wj5.jpg"><br>意思是这个目录下的所有以.png为后缀的文件都会被解析为php执行<br>然后上传一个1.png<br><img src="https://raw.githubusercontent.com/lewiserii/images/master/img/wj6.jpg"><br>访问上传的1.png<br>执行成功<br><img src="https://raw.githubusercontent.com/lewiserii/images/master/img/wj7.jpg"></p><h1><span id="00截断1">00截断–1</span></h1><p>想要利用00截断需要一些条件：</p><blockquote><p>php版本要小于5.3.4，5.3.4及以上已经修复该问题<br>magic_quotes_gpc需要为OFF状态</p></blockquote><p>0x00，%00，/00之类的截断，都是一样的，只是不同表示而已<br>上传1.png，并构造一个new.php<br>即/upload/new.php%001.png，经过解析后1.png被截断<br><img src="https://raw.githubusercontent.com/lewiserii/images/master/img/wj8.jpg"><br>访问new.php<br>执行成功<br><img src="https://raw.githubusercontent.com/lewiserii/images/master/img/wj9.jpg"></p><h1><span id="00截断2">00截断–2</span></h1><p>POST型的00截断<br>需要手动解码一次<br><img src="https://raw.githubusercontent.com/lewiserii/images/master/img/wj10.jpg"><br><img src="https://raw.githubusercontent.com/lewiserii/images/master/img/wj11.jpg"></p><h1><span id="条件竞争">条件竞争</span></h1><p><a href="http://192.168.1.103:30010/">http://192.168.1.103:30010/</a></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;!-- toc --&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#%E5%89%8D%E8%A8%80&quot;&gt;前言&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#javascript%E7%BB%95%E8%BF%87&quot;&gt;JavaScript绕过&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a hr</summary>
+      
+    
+    
+    
+    <category term="总结" scheme="https://lewiserii.github.io/categories/%E6%80%BB%E7%BB%93/"/>
+    
+    
+    <category term="总结" scheme="https://lewiserii.github.io/tags/%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
   
   <entry>
     <title>PHP环境 XML外部实体注入漏洞（XXE）</title>

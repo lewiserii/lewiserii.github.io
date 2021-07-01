@@ -1,0 +1,89 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="文件上传总结"><meta name="keywords" content="总结"><meta name="author" content="lewiserii"><meta name="copyright" content="lewiserii"><title>文件上传总结 | lewiserii's blog</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.9.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.9.0"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css?version=1.9.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.css"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.js" defer></script><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script src="https://v1.hitokoto.cn/?encode=js&amp;charset=utf-8&amp;select=.footer_custom_text" defer></script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"84XGVBF6E9","apiKey":"494c4354e8f3656477d8b73e29dc040b","indexName":"algolia","hits":{"per_page":10},"languages":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}.","hits_stats":"${hits} results found in ${time} ms"}},
+  localSearch: undefined,
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  hexoVersion: '5.4.0'
+} </script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="lewiserii's blog" type="application/atom+xml">
+</head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="false"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">JavaScript绕过</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">MIME绕过</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">文件头绕过</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">有缺陷的代码–1</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text">有缺陷的代码–2</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">7.</span> <span class="toc-text">黑名单缺陷</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">8.</span> <span class="toc-text">解析上传</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">9.</span> <span class="toc-text">00截断–1</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">10.</span> <span class="toc-text">00截断–2</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">11.</span> <span class="toc-text">条件竞争</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://z3.ax1x.com/2021/06/10/2RAItU.jpg"></div><div class="author-info__name text-center">lewiserii</div><div class="author-info__description text-center"></div><div class="follow-button"><a target="_blank" rel="noopener" href="https://github.com/lewiserii">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">7</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">4</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">4</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">Links</div><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45957793">lewiserii</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://ctfking.com/">Tajang</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://z3.ax1x.com/2021/06/12/25MFGd.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">lewiserii's blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a><a class="site-page" href="/about">About</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> Search</span></a></span></div><div id="post-info"><div id="post-title">文件上传总结</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2021-07-01</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E6%80%BB%E7%BB%93/">总结</a><div class="post-meta-wordcount"><span>Word count: </span><span class="word-count">923</span><span class="post-meta__separator">|</span><span>Reading time: 3 min</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><!-- toc -->
+
+<ul>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#javascript%E7%BB%95%E8%BF%87">JavaScript绕过</a></li>
+<li><a href="#mime%E7%BB%95%E8%BF%87">MIME绕过</a></li>
+<li><a href="#%E6%96%87%E4%BB%B6%E5%A4%B4%E7%BB%95%E8%BF%87">文件头绕过</a></li>
+<li><a href="#%E6%9C%89%E7%BC%BA%E9%99%B7%E7%9A%84%E4%BB%A3%E7%A0%81-1">有缺陷的代码–1</a></li>
+<li><a href="#%E6%9C%89%E7%BC%BA%E9%99%B7%E7%9A%84%E4%BB%A3%E7%A0%81-2">有缺陷的代码–2</a></li>
+<li><a href="#%E9%BB%91%E5%90%8D%E5%8D%95%E7%BC%BA%E9%99%B7">黑名单缺陷</a></li>
+<li><a href="#%E8%A7%A3%E6%9E%90%E4%B8%8A%E4%BC%A0">解析上传</a></li>
+<li><a href="#00%E6%88%AA%E6%96%AD-1">00截断–1</a></li>
+<li><a href="#00%E6%88%AA%E6%96%AD-2">00截断–2</a></li>
+<li><a href="#%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89">条件竞争</a></li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="前言">前言</span></h1><p>之前写过一篇文件上传的总结，但是写的有点混乱，不知所云<br>这几天发现了国光师傅的<a target="_blank" rel="noopener" href="https://hub.docker.com/r/sqlsec/ggctf-upload">文件上传靶场项目</a>，正好重新总结一下</p>
+<p>靶场部署就不多说了</p>
+<h1><span id="javascript绕过">JavaScript绕过</span></h1><p>从最简单的js开始<br>首先我们要判断是否为js前端验证<br>F12查看代码，已经很明显了<br><img src="https://raw.githubusercontent.com/lewiserii/images/master/img/wj1.jpg"></p>
+<p>js绕过的方法较多，常见的有抓包改后缀，禁用js或是直接修改代码<br>我比较喜欢用chrome的禁用js<br>访问chrome://settings/content/javascript?search=java<br>添加禁用即可<br><img src="https://raw.githubusercontent.com/lewiserii/images/master/img/wj2.jpg"></p>
+<h1><span id="mime绕过">MIME绕过</span></h1><p>MIME验证是对数据包的Content-Type类型进行验证<br>我们只需要修改Content-Type类型即可绕过<br><img src="https://raw.githubusercontent.com/lewiserii/images/master/img/wj3.jpg"><br>常见的类型</p>
+<blockquote>
+<p>text/plain（纯文本）<br>text/html（HTML文档）<br>text/javascript（js代码）<br>application/xhtml+xml（XHTML文档）<br>image/gif（GIF图像）<br>image/jpeg（JPEG图像）<br>image/png（PNG图像）<br>video/mpeg（MPEG动画）<br>application/octet-stream（二进制数据）<br>application/pdf（PDF文档）<br>application/(编程语言) 该种语言的代码<br>application/msword（Microsoft Word文件）<br>message/rfc822（RFC 822形式）<br>multipart/alternative（HTML邮件的HTML形式和纯文本形式，相同内容使用不同形式表示）<br>application/x-www-form-urlencoded（ POST方法提交的表单）<br>multipart/form-data（POST提交时伴随文件上传的表单）</p>
+</blockquote>
+<h1><span id="文件头绕过">文件头绕过</span></h1><p>顾名思义，就是对文件头的验证<br>用010 Editor等十六进制编辑器查看并修改<br><img src="https://raw.githubusercontent.com/lewiserii/images/master/img/wj4.jpg"><br>当然，一个标准的图片马是没有这个问题的<br>常见的文件头</p>
+<blockquote>
+<p>PNG 的文件头为<br>十六进制的 89 50 4E 47 0D 0A 1A 0A</p>
+</blockquote>
+<blockquote>
+<p>GIF(相当于文本的GIF89a)：<br>47 49 46 38 39 61</p>
+</blockquote>
+<blockquote>
+<p>JPG 的文件头为<br>FF D8 FF E0 00 10 4A 46 49 46</p>
+</blockquote>
+<blockquote>
+<p>ZIP 的文件头为<br>50 4B 03 04</p>
+</blockquote>
+<blockquote>
+<p>RAR 的文件头为<br>52 61 72 21</p>
+</blockquote>
+<h1><span id="有缺陷的代码1">有缺陷的代码–1</span></h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$blacklist = array(&quot;php&quot;,&quot;php5&quot;,&quot;php4&quot;,&quot;php3&quot;,&quot;phtml&quot;,&quot;pht&quot;,&quot;htaccess&quot;);</span><br><span class="line">$name = str_ireplace($blacklist,&quot;&quot;,$name);</span><br><span class="line">if (move_uploaded_file($_FILES[&#x27;file&#x27;][&#x27;tmp_name&#x27;],UPLOAD_PATH.$name))</span><br></pre></td></tr></table></figure>
+<p>黑名单关键词替换为空的操作是一种不安全的写法<br>可以使用双写来绕过<br>如<br>test.phphpp</p>
+<h1><span id="有缺陷的代码2">有缺陷的代码–2</span></h1><p>还是上一题的代码<br>但是在windows环境下不区分大小写，所以就可以让 .PHp 当做 .php 来解析了，但是 Linux 下这种大小写如果的话完全没作用</p>
+<h1><span id="黑名单缺陷">黑名单缺陷</span></h1><p>白名单是设置能通过的用户，白名单以外的用户都不能通过。<br>黑名单是设置不能通过的用户，黑名单以外的用户都能通过。<br>所以一般情况下白名单比黑名单限制的用户要更多一些<br>这里利用的是php的多后缀<br>默认情况下 Apache 把 phtml、pht、php、php3、php4、php5 解析为 PHP</p>
+<h1><span id="解析上传">解析上传</span></h1><p>上传一个.htaccess文件，文件内容如下<br><img src="https://raw.githubusercontent.com/lewiserii/images/master/img/wj5.jpg"><br>意思是这个目录下的所有以.png为后缀的文件都会被解析为php执行<br>然后上传一个1.png<br><img src="https://raw.githubusercontent.com/lewiserii/images/master/img/wj6.jpg"><br>访问上传的1.png<br>执行成功<br><img src="https://raw.githubusercontent.com/lewiserii/images/master/img/wj7.jpg"></p>
+<h1><span id="00截断1">00截断–1</span></h1><p>想要利用00截断需要一些条件：</p>
+<blockquote>
+<p>php版本要小于5.3.4，5.3.4及以上已经修复该问题<br>magic_quotes_gpc需要为OFF状态</p>
+</blockquote>
+<p>0x00，%00，/00之类的截断，都是一样的，只是不同表示而已<br>上传1.png，并构造一个new.php<br>即/upload/new.php%001.png，经过解析后1.png被截断<br><img src="https://raw.githubusercontent.com/lewiserii/images/master/img/wj8.jpg"><br>访问new.php<br>执行成功<br><img src="https://raw.githubusercontent.com/lewiserii/images/master/img/wj9.jpg"></p>
+<h1><span id="00截断2">00截断–2</span></h1><p>POST型的00截断<br>需要手动解码一次<br><img src="https://raw.githubusercontent.com/lewiserii/images/master/img/wj10.jpg"><br><img src="https://raw.githubusercontent.com/lewiserii/images/master/img/wj11.jpg"></p>
+<h1><span id="条件竞争">条件竞争</span></h1><p><a target="_blank" rel="noopener" href="http://192.168.1.103:30010/">http://192.168.1.103:30010/</a></p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">lewiserii</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://lewiserii.github.io/2021/07/01/文件上传总结/">https://lewiserii.github.io/2021/07/01/文件上传总结/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%80%BB%E7%BB%93/">总结</a></div><div class="addthis_inline_share_toolbox pull-right"></div><script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-60c1ef4fda039536" async></script><nav id="pagination"><div class="next-post pull-right"><a href="/2021/06/21/PHP%E7%8E%AF%E5%A2%83%20XML%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%EF%BC%88XXE%EF%BC%89/"><span>PHP环境 XML外部实体注入漏洞（XXE）</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="vcomment"></div><script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var notify = 'false' == 'true';
+var verify = 'false' == 'true';
+var record_ip = 'false' == 'true';
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  recordIP:record_ip,
+  appId:'Y32PcxBjfcdoJLlgIjJpdXqG-gzGzoHsz',
+  appKey:'ePCEw0S8BnFNkr2CvMhzGyNu',
+  placeholder:'Just go go',
+  avatar:'wavatar',
+  guest_info:guest_info,
+  pageSize:'10',
+  lang: 'zh-cn'
+})</script></div></div><footer class="footer-bg" style="background-image: url(https://z3.ax1x.com/2021/06/12/25MFGd.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2021 By lewiserii</div><div class="framework-info"><span>Driven - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">hitokoto</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.9.0"></script><script src="/js/fancybox.js?version=1.9.0"></script><script src="/js/sidebar.js?version=1.9.0"></script><script src="/js/copy.js?version=1.9.0"></script><script src="/js/fireworks.js?version=1.9.0"></script><script src="/js/transition.js?version=1.9.0"></script><script src="/js/scroll.js?version=1.9.0"></script><script src="/js/head.js?version=1.9.0"></script><script src="/js/search/algolia.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="algolia-search"><div class="search-dialog__title" id="algolia-search-title">Algolia</div><div id="algolia-input-panel"><div id="algolia-search-input"></div></div><hr><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-stats"></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
