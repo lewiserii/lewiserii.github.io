@@ -1,0 +1,83 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="创建docker镜像并上传至hub"><meta name="keywords" content="docker"><meta name="author" content="lewiserii"><meta name="copyright" content="lewiserii"><title>创建docker镜像并上传至hub | lewiserii's blog</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.9.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.9.0"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css?version=1.9.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.css"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.js" defer></script><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script src="https://v1.hitokoto.cn/?encode=js&amp;charset=utf-8&amp;select=.footer_custom_text" defer></script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"84XGVBF6E9","apiKey":"494c4354e8f3656477d8b73e29dc040b","indexName":"algolia","hits":{"per_page":10},"languages":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}.","hits_stats":"${hits} results found in ${time} ms"}},
+  localSearch: undefined,
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  hexoVersion: '5.4.0'
+} </script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="lewiserii's blog" type="application/atom+xml">
+</head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="false"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">使用Dockerfile构建容器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.1.</span> <span class="toc-text">文件结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.2.</span> <span class="toc-text">构建镜像</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">上传至docker hub</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://z3.ax1x.com/2021/06/10/2RAItU.jpg"></div><div class="author-info__name text-center">lewiserii</div><div class="author-info__description text-center"></div><div class="follow-button"><a target="_blank" rel="noopener" href="https://github.com/lewiserii">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">8</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">5</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">5</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">Links</div><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45957793">lewiserii</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://ctfking.com/">Tajang</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://z3.ax1x.com/2021/06/12/25MFGd.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">lewiserii's blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a><a class="site-page" href="/about">About</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> Search</span></a></span></div><div id="post-info"><div id="post-title">创建docker镜像并上传至hub</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2021-07-05</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/docker/">docker</a><div class="post-meta-wordcount"><span>Word count: </span><span class="word-count">902</span><span class="post-meta__separator">|</span><span>Reading time: 3 min</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><!-- toc -->
+
+<ul>
+<li><a href="#%E4%BD%BF%E7%94%A8dockerfile%E6%9E%84%E5%BB%BA%E5%AE%B9%E5%99%A8">使用Dockerfile构建容器</a><ul>
+<li><a href="#%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84">文件结构</a></li>
+<li><a href="#%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F">构建镜像</a></li>
+</ul>
+</li>
+<li><a href="#%E4%B8%8A%E4%BC%A0%E8%87%B3docker-hub">上传至docker hub</a></li>
+</ul>
+<!-- tocstop -->
+
+<p>之前简单的学习了一下docker<br>现在趁暑假在稍微深入学习一下（其实是想自己写一个docker靶场）</p>
+<h1><span id="使用dockerfile构建容器">使用Dockerfile构建容器</span></h1><p>学习Dockerfile的最好方式就是阅读别人写的Dockerfile，遇到不会的指令就查一查Dockerfile的<a target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/builder/">文档</a></p>
+<h2><span id="文件结构">文件结构</span></h2><p>Dockerfile 一般分为 4 部分：基础镜像信息、维护者信息、镜像操作指令和容器启动时执行指令，“#”为 Dockerfile 中的注释。<br>Dockerfile 主要指令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">FROM：指定基础镜像，必须为第一个命令。</span><br><span class="line">MAINTAINER：维护者信息。</span><br><span class="line">RUN：构建镜像时执行的命令。</span><br><span class="line">ADD：将本地文件添加到容器中，tar 类型文件会自动解压（网络压缩资源不会被解压），可以访问网络资源，类似 wget。</span><br><span class="line">COPY：功能类似 ADD，但是是不会自动解压文件，也不能访问网络资源。</span><br><span class="line">CMD：构建容器后调用，也就是在容器启动时才进行调用。</span><br><span class="line">ENTRYPOINT：配置容器，使其可执行化。配合 CMD 可省去“application”，只使用参数。</span><br><span class="line">LABEL：用于为镜像添加元数据。</span><br><span class="line">ENV：设置环境变量。</span><br><span class="line">EXPOSE：指定与外界交互的端口。</span><br><span class="line">VOLUME：用于指定持久化目录。</span><br><span class="line">WORKDIR：工作目录，类似于 cd 命令。</span><br><span class="line">USER：指定运行容器时的用户名或 UID，后续的 RUN 也会使用指定用户。使用 USER指定用户时，可以使用用户名、UID 或 GID，或是两者的组合。当服务不需要管理员权限时，可通过该命令指定运行用户。</span><br><span class="line">ARG：用于指定传递给构建运行时的变量。</span><br><span class="line">ONBUILD：用于设置镜像触发器。</span><br></pre></td></tr></table></figure>
+<p>接下来以 centos:latest 为基础镜像，安装 jdk1.8 并构建新的镜像 centos-jdk。<br>例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># CentOS with JDK 8</span><br><span class="line"># 指定基础镜像</span><br><span class="line">FROM centos</span><br><span class="line"># 指定作者</span><br><span class="line">MAINTAINER lewiserii</span><br><span class="line"># 新建文件夹用于存放 jdk 文件</span><br><span class="line">RUN mkdir /usr/local/java</span><br><span class="line"># 将 JDK 文件复制到镜像内并自动解压</span><br><span class="line">ADD jdk-8.tar.gz /usr/local/java/</span><br><span class="line"># 创建软链接</span><br><span class="line">RUN ln -s /usr/local/java/jdk1.8.0_281 /usr/local/java/jdk</span><br><span class="line"># 设置环境变量</span><br><span class="line">ENV JAVA_HOME=/usr/local/java/jdk</span><br><span class="line">ENV JRE_HOME=$&#123;JAVA_HOME&#125;/jre</span><br><span class="line">ENV CLASSPATH=.:$&#123;JAVA_HOME&#125;/lib:$&#123;JRE_HOME&#125;/lib</span><br><span class="line">ENV PATH=$&#123;JAVA_HOME&#125;/bin:$PATH</span><br></pre></td></tr></table></figure>
+
+<h2><span id="构建镜像">构建镜像</span></h2><p>新建一个目录，然后在新目录下新建一个Dockerfile（注意D要大写）<br>放入jdk的压缩包<br>将你写好的内容复制进Dockerfile文件<br>使用build构建镜像</p>
+<blockquote>
+<p>docker build -t centos-jdk8:v1.0 .</p>
+</blockquote>
+<p><img src="https://gitee.com/lewiserii/images/raw/master/img/docker1.jpg"></p>
+<p>其中-t centos-jdk:v1.0表示打包的镜像名为centos-jdk，tag为v1.0（tag是可以任意命名的，不一定要是这种格式），注意命令的最后有一个.，这个表示打包的上下文（其实就是Dockerfile所在目录）是在当前目录，然后目录下的Dockerfile就会被编译执行。</p>
+<p>执行完毕后运行docker images就会发现多了一个centos-jdk镜像。</p>
+<p><img src="https://gitee.com/lewiserii/images/raw/master/img/docker2.jpg"></p>
+<p>可以先运行一下容器查看效果</p>
+<p><img src="https://gitee.com/lewiserii/images/raw/master/img/docker3.jpg"></p>
+<h1><span id="上传至docker-hub">上传至docker hub</span></h1><p>1:首先需要在<a target="_blank" rel="noopener" href="https://hub.docker.com/">官网</a>创建一个账户</p>
+<p>2:在docker中登陆</p>
+<blockquote>
+<p>docker login -u 用户名 -p 密码</p>
+</blockquote>
+<p><img src="https://gitee.com/lewiserii/images/raw/master/img/docker4.jpg"></p>
+<p>3:将镜像命名你的用户名/镜像名这种形式，不然会push认证不通过</p>
+<blockquote>
+<p>docker tag xxx:xxx 你的用户名/镜像名</p>
+</blockquote>
+<p><img src="https://gitee.com/lewiserii/images/raw/master/img/docker5.jpg"></p>
+<p>4：上传</p>
+<blockquote>
+<p>docker push 你的用户名/镜像名</p>
+</blockquote>
+<p><img src="https://gitee.com/lewiserii/images/raw/master/img/docker6.jpg"></p>
+<p>5：登陆官网查看镜像信息<br>在首页就可以看到啦，这样你就可以向你的朋友们分享你的镜像了<br><img src="https://gitee.com/lewiserii/images/raw/master/img/docker7.jpg"></p>
+<p>6：删除hub镜像<br>进入镜像后在settings中可以找到delete repository选项<br><img src="https://gitee.com/lewiserii/images/raw/master/img/docker8.jpg"></p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">lewiserii</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://lewiserii.github.io/2021/07/05/创建docker镜像并上传至hub/">https://lewiserii.github.io/2021/07/05/创建docker镜像并上传至hub/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/docker/">docker</a></div><div class="addthis_inline_share_toolbox pull-right"></div><script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-60c1ef4fda039536" async></script><nav id="pagination"><div class="next-post pull-right"><a href="/2021/07/01/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%80%BB%E7%BB%93/"><span>文件上传总结</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="vcomment"></div><script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var notify = 'false' == 'true';
+var verify = 'false' == 'true';
+var record_ip = 'false' == 'true';
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  recordIP:record_ip,
+  appId:'Y32PcxBjfcdoJLlgIjJpdXqG-gzGzoHsz',
+  appKey:'ePCEw0S8BnFNkr2CvMhzGyNu',
+  placeholder:'Just go go',
+  avatar:'wavatar',
+  guest_info:guest_info,
+  pageSize:'10',
+  lang: 'zh-cn'
+})</script></div></div><footer class="footer-bg" style="background-image: url(https://z3.ax1x.com/2021/06/12/25MFGd.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2021 By lewiserii</div><div class="framework-info"><span>Driven - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">hitokoto</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.9.0"></script><script src="/js/fancybox.js?version=1.9.0"></script><script src="/js/sidebar.js?version=1.9.0"></script><script src="/js/copy.js?version=1.9.0"></script><script src="/js/fireworks.js?version=1.9.0"></script><script src="/js/transition.js?version=1.9.0"></script><script src="/js/scroll.js?version=1.9.0"></script><script src="/js/head.js?version=1.9.0"></script><script src="/js/search/algolia.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="algolia-search"><div class="search-dialog__title" id="algolia-search-title">Algolia</div><div id="algolia-input-panel"><div id="algolia-search-input"></div></div><hr><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-stats"></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
